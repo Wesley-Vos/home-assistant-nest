@@ -89,7 +89,7 @@ class TemperatureSensor(SensorBase):
         # display fix is added for all integrations.
         return self.round_temp(float(round(trait.ambient_temperature_celsius, 1)))
     
-    def round_temp(self, temperature: float) -> int:
+    def round_temp(self, temperature: float) -> float:
         _LOGGER.debug(str(temperature), str(round(temperature * 2) / 2))
         return round(temperature * 2) / 2
 

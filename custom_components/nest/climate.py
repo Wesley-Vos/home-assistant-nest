@@ -345,6 +345,6 @@ class ThermostatEntity(ClimateEntity):
                 f"Error setting {self.entity_id} fan mode to {fan_mode}: {err}"
             ) from err
 
-    def round_temp(self, temperature: float) -> int:
+    def round_temp(self, temperature: float) -> float:
         _LOGGER.debug(str(temperature), str(round(temperature * 2) / 2))
         return round(temperature * 2) / 2

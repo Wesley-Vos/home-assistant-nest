@@ -87,7 +87,7 @@ class TemperatureSensor(SensorBase):
         # Round for display purposes because the API returns 5 decimal places.
         # This can be removed if the SDM API issue is fixed, or a frontend
         # display fix is added for all integrations.
-        return self.round_temp(float(round(trait.ambient_temperature_celsius, 1)))
+        return self.round_temp(float(trait.ambient_temperature_celsius))
     
     def round_temp(self, temperature: float) -> float:
         _LOGGER.debug(str(temperature), str(round(temperature * 2) / 2))

@@ -335,13 +335,13 @@ class ThermostatEntity(ClimateEntity):
             return
         
         if preset_mode == PRESET_ECO:
-            await self.async_set_temperature({ATTR_TEMPERATURE: CLIMATE_PRESET_ECO_TEMPERATURE})
+            await trait.set_heat(CLIMATE_PRESET_ECO_TEMPERATURE)
             return
         if preset_mode == PRESET_COMFORT:
-            await self.async_set_temperature({ATTR_TEMPERATURE: CLIMATE_PRESET_COMFORT_TEMPERATURE})
+            await trait.set_heat(CLIMATE_PRESET_COMFORT_TEMPERATURE)
             return
         elif preset_mode == PRESET_HOME:
-            await self.async_set_temperature({ATTR_TEMPERATURE: CLIMATE_PRESET_HOME_TEMPERATURE})
+            await trait.set_heat(CLIMATE_PRESET_HOME_TEMPERATURE)
             return
         
         trait = self._device.traits[ThermostatEcoTrait.NAME]

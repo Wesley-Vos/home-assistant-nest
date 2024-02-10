@@ -219,7 +219,12 @@ class ThermostatEntity(ClimateEntity):
         """Return the current active preset."""
         if ThermostatEcoTrait.NAME in self._device.traits:
             trait = self._device.traits[ThermostatEcoTrait.NAME]
-            return PRESET_MODE_MAP.get(trait.mode, PRESET_NONE)
+            api_val = PRESET_MODE_MAP.get(trait.mode, PRESET_NONE)
+            if api_val == PRESET_NONE:
+                if self.current_temperature == CLIMATE_PRESET_HOME_TEMPERATURE:
+                    return PRESET_HOME
+                elif self.current_temperature == CLIMATE_PRESET_COMFORT_TEMPERATURE:
+                    return PRESET_COMFORT
         return PRESET_NONE
 
     @property
@@ -326,6 +331,14 @@ class ThermostatEntity(ClimateEntity):
             raise ValueError(f"Unsupported preset_mode '{preset_mode}'")
         if self.preset_mode == preset_mode:  # API doesn't like duplicate preset modes
             return
+        
+        if preset_mode == PRESET_COMFORT:
+            await self.async_set_temperature(CLIMATE_PRESET_COMFORT_TEMPERATURE)
+            return
+        elif preset_mode == PRESET_HOME:
+            await self.async_set_temperature(CLIMATE_PRESET_HOME_TEMPERATURE)
+            return
+        
         trait = self._device.traits[ThermostatEcoTrait.NAME]
         try:
             await trait.set_mode(PRESET_INV_MODE_MAP[preset_mode])

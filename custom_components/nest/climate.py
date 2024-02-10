@@ -81,6 +81,7 @@ MIN_TEMP = 10
 MAX_TEMP = 32
 MIN_TEMP_RANGE = 1.66667
 
+CLIMATE_PRESET_ECO_TEMPERATURE = 15
 CLIMATE_PRESET_HOME_TEMPERATURE = 19
 CLIMATE_PRESET_COMFORT_TEMPERATURE = 20
 
@@ -220,6 +221,8 @@ class ThermostatEntity(ClimateEntity):
             trait = self._device.traits[ThermostatEcoTrait.NAME]
             api_val = PRESET_MODE_MAP.get(trait.mode, PRESET_NONE)
             if api_val == PRESET_NONE:
+                if self.current_temperature == CLIMATE_PRESET_ECO_TEMPERATURE:
+                    return PRESET_ECO
                 if self.current_temperature == CLIMATE_PRESET_HOME_TEMPERATURE:
                     return PRESET_HOME
                 elif self.current_temperature == CLIMATE_PRESET_COMFORT_TEMPERATURE:
@@ -331,6 +334,9 @@ class ThermostatEntity(ClimateEntity):
         if self.preset_mode == preset_mode:  # API doesn't like duplicate preset modes
             return
         
+        if preset_mode == PRESET_ECO:
+            await self.async_set_temperature(CLIMATE_PRESET_ECO_TEMPERATURE)
+            return
         if preset_mode == PRESET_COMFORT:
             await self.async_set_temperature(CLIMATE_PRESET_COMFORT_TEMPERATURE)
             return

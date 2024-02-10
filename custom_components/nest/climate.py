@@ -23,6 +23,8 @@ from homeassistant.components.climate import (
     ATTR_TARGET_TEMP_LOW,
     FAN_OFF,
     FAN_ON,
+    PRESET_COMFORT,
+    PRESET_HOME,
     PRESET_ECO,
     PRESET_NONE,
     ClimateEntity,
@@ -79,6 +81,9 @@ MAX_FAN_DURATION = 43200  # 15 hours is the max in the SDM API
 MIN_TEMP = 10
 MAX_TEMP = 32
 MIN_TEMP_RANGE = 1.66667
+
+CLIMATE_PRESET_HOME_TEMPERATURE = 19
+CLIMATE_PRESET_COMFORT_TEMPERATURE = 20
 
 
 async def async_setup_entry(
@@ -226,6 +231,8 @@ class ThermostatEntity(ClimateEntity):
             for mode in trait.available_modes:
                 if mode in PRESET_MODE_MAP:
                     modes.append(PRESET_MODE_MAP[mode])
+        modes.append(PRESET_COMFORT)
+        modes.append(PRESET_HOME)
         return modes
 
     @property

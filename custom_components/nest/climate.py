@@ -218,15 +218,12 @@ class ThermostatEntity(ClimateEntity):
     def preset_mode(self) -> str:
         """Return the current active preset."""
         if ThermostatEcoTrait.NAME in self._device.traits:
-            trait = self._device.traits[ThermostatEcoTrait.NAME]
-            api_val = PRESET_MODE_MAP.get(trait.mode, PRESET_NONE)
-            if api_val == PRESET_NONE:
-                if self.current_temperature == CLIMATE_PRESET_ECO_TEMPERATURE:
-                    return PRESET_ECO
-                if self.current_temperature == CLIMATE_PRESET_HOME_TEMPERATURE:
-                    return PRESET_HOME
-                elif self.current_temperature == CLIMATE_PRESET_COMFORT_TEMPERATURE:
-                    return PRESET_COMFORT
+            if self.current_temperature == CLIMATE_PRESET_ECO_TEMPERATURE:
+                return PRESET_ECO
+            if self.current_temperature == CLIMATE_PRESET_HOME_TEMPERATURE:
+                return PRESET_HOME
+            elif self.current_temperature == CLIMATE_PRESET_COMFORT_TEMPERATURE:
+                return PRESET_COMFORT
         return None
 
     @property

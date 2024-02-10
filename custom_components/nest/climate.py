@@ -334,14 +334,15 @@ class ThermostatEntity(ClimateEntity):
         if self.preset_mode == preset_mode:  # API doesn't like duplicate preset modes
             return
         
+        temp_trait = self._device.traits[ThermostatTemperatureSetpointTrait.NAME]
         if preset_mode == PRESET_ECO:
-            await trait.set_heat(CLIMATE_PRESET_ECO_TEMPERATURE)
+            await temp_trait.set_heat(CLIMATE_PRESET_ECO_TEMPERATURE)
             return
         if preset_mode == PRESET_COMFORT:
-            await trait.set_heat(CLIMATE_PRESET_COMFORT_TEMPERATURE)
+            await temp_trait.set_heat(CLIMATE_PRESET_COMFORT_TEMPERATURE)
             return
         elif preset_mode == PRESET_HOME:
-            await trait.set_heat(CLIMATE_PRESET_HOME_TEMPERATURE)
+            await temp_trait.set_heat(CLIMATE_PRESET_HOME_TEMPERATURE)
             return
         
         trait = self._device.traits[ThermostatEcoTrait.NAME]

@@ -66,7 +66,6 @@ THERMOSTAT_RANGE_MODES = [HVACMode.HEAT_COOL, HVACMode.AUTO]
 
 PRESET_MODE_MAP = {
     "MANUAL_ECO": PRESET_ECO,
-    "OFF": PRESET_NONE,
 }
 PRESET_INV_MODE_MAP = {v: k for k, v in PRESET_MODE_MAP.items()}
 
@@ -225,7 +224,7 @@ class ThermostatEntity(ClimateEntity):
                     return PRESET_HOME
                 elif self.current_temperature == CLIMATE_PRESET_COMFORT_TEMPERATURE:
                     return PRESET_COMFORT
-        return PRESET_NONE
+        return None
 
     @property
     def preset_modes(self) -> list[str]:
